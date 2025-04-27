@@ -1,0 +1,178 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: deepskyblue;
+}
+.title-img {
+    position: fixed;
+    top: 0;
+    width: 20%;
+    height: auto;
+}
+.title-img img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+.grass{
+    position: fixed;
+    bottom: -10px;
+    width: 100%;
+    height: 10vh;
+    background: url("assets/images/grass_fixed.png") repeat-x;
+    background-size: auto 100%;
+    background-position: bottom;
+    filter: brightness(0.8) sepia(0.3) hue-rotate(-20deg) saturate(1.3);
+}
+.build-button {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: none;
+    padding: 0;
+    margin: 0;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    width: 20vh;
+    height: 15vh;
+}
+.build-button img{
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    background: none;
+    border: none;
+}
+.build-button:hover {
+    opacity: 0.9;
+}
+.build-button:active {
+    opacity: 0.8;
+}
+
+.upgrade-section {
+    position: fixed;
+    top: 10%;
+    right: 2%;
+    width: 952px;
+    min-width: 150px;
+    max-width: 220px;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    padding: 10px;
+    background: url("assets/images/brick_wall.jpg");
+    height: 300px;
+    border-radius: 20px;
+    background-size: cover;
+}
+
+h2 {
+    font-size: 35px;
+    font-family: 'Jersey 25';
+    margin-bottom: 20px;
+    text-align: center;
+    color: #dadad2;
+    background: #404238;
+    border-radius: 10px;
+}
+
+.upgrade-item {
+    margin-bottom: 15px;
+}
+
+.upgrade-button {
+    font-family: 'Jersey 25';
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #404238;
+    color: #dadad2;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.upgrade-button:hover {
+    background-color: rgb(75, 104, 47);
+}
+
+.upgrade-button:active {
+    background-color: #ccc;
+}
+
+.clouds {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.clouds div {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 100%;
+    background-repeat: repeat-x;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    background-size: auto 50%;
+}
+.backclouds {
+    background-image: url('assets/images/clouds2.png');
+    animation: movebackclouds 1200s linear infinite;
+    top: 20px;
+    z-index: -1;
+    opacity: 0.6;
+    filter: sepia(0.5) hue-rotate(-20deg) brightness(0.9) saturate(1.5);
+
+}
+.frontclouds {
+    background-image: url('assets/images/clouds1.png');
+    animation: movefrontclouds 1000s linear infinite;
+    top: 0;
+    z-index: 1;
+    opacity: 0.9;
+    filter: sepia(0.5) hue-rotate(-20deg) brightness(0.9) saturate(1.5);
+
+}
+@keyframes movebackclouds {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -10000px 0;
+    }
+}
+@keyframes movefrontclouds {
+    from {
+        background-position: 0 0;
+    }
+    to {
+        background-position: -20000px 0;
+    }
+}
+.sky {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('assets/images/sky.png');
+    background-size: contain;
+    z-index: -3;
+}

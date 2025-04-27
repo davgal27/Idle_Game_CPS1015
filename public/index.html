@@ -1,12 +1,54 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jersey 25">
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes"/>
         <script src="Logic.js"></script>
         <title>Konkos</title>
         <link rel = "stylesheet" href = "styles.css">
     </head>
     <body>
+        <div class="title-img"> <!--Konkos title -->
+            <img src="assets/images/konkos_fixed.png" alt="KONKOS"/>
+        </div>
+        <div class="sky"></div>
+        <div class="grass"></div>
+        <div class="clouds">
+            <div class="frontclouds"></div>
+            <div class="backclouds"></div>
+        </div>
+
+        <button class="build-button">
+            <img src="assets/images/build_button_fixed.png" alt="Build Button">
+        </button>
+
+        <div class="upgrade-section">
+            <h2>Upgrades!</h2>
+
+            <!-- Builder upgrade  -->
+            <div class="upgrade-item">
+                <button class="upgrade-button" id="hire-builder" onclick="HireBuilder()">
+                    Hire a Builder (Cost: <span id="builder-cost">100</span>) (+1 apt/sec)
+                </button>
+            </div>
+
+            <!-- Apartment upgrade -->
+            <div class="upgrade-item">
+                <button class="upgrade-button" id="apartment-size" onclick="IncreaseApartmentSize()">
+                    Apartment Size (Cost: <span id="apartment-cost">150</span>) (+1 $ / apt)
+                </button>
+            </div>
+
+            <!-- Politician upgrade -->
+            <div class="upgrade-item">
+                <button class="upgrade-button" id="politician" onclick="DealWithPolitician()">
+                    Deal with a Politician (Cost: <span id="politician-cost">500</span>) (x2 builders for 10 sec)
+                </button>
+            </div>
+        </div>
+
+
 
     </body>
 </html>
