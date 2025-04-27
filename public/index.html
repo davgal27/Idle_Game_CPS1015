@@ -4,12 +4,31 @@
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Jersey 25">
         <meta charset="utf-8"/>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes"/>
-        <script src="Logic.js"></script>
         <title>Konkos</title>
         <link rel = "stylesheet" href = "styles.css">
     </head>
     <body>
-        <div class="title-img"> <!--Konkos title -->
+        <div class="title_screen" id="title_screen">
+            <p>
+                <strong>The property crisis is over!</strong><br>
+                Housing for everyone!<br>
+                The country has successfully converted all our tall ugly concrete buildings to<br>
+                wooden houses and green parks! No more cranes and blocked views!<br>
+                Let's hope things stay that way...<br>
+                <br>
+                ... That's where you come in.<br>
+                In a country full of houses and unused space you see...<br>
+                <strong>Potential...</strong><br>
+                <strong>Your goal:</strong> Build apartments, as these generate money!<br>
+                With that money, you can build more apartments, to earn even more!<br>
+                <br>
+                <strong>Good luck!</strong>
+                <br>
+                <span id="flash-message">Click The Button to start:  </span>
+                <button id="start-button">The Button</button>
+            </p>
+        </div>
+        <div class="title-img" id="title-img"> <!--Konkos title -->
             <img src="assets/images/konkos_fixed.png" alt="KONKOS"/>
         </div>
         <div class="sky"></div>
@@ -25,21 +44,18 @@
 
         <div class="upgrade-section">
             <h2>Upgrades!</h2>
-
             <!-- Builder upgrade  -->
             <div class="upgrade-item">
                 <button class="upgrade-button" id="hire-builder" onclick="HireBuilder()">
                     Hire a Builder (Cost: <span id="builder-cost">100</span>) (+1 apt/sec)
                 </button>
             </div>
-
             <!-- Apartment upgrade -->
             <div class="upgrade-item">
                 <button class="upgrade-button" id="apartment-size" onclick="IncreaseApartmentSize()">
                     Apartment Size (Cost: <span id="apartment-cost">150</span>) (+1 $ / apt)
                 </button>
             </div>
-
             <!-- Politician upgrade -->
             <div class="upgrade-item">
                 <button class="upgrade-button" id="politician" onclick="DealWithPolitician()">
@@ -98,5 +114,6 @@
                 <strong>Builders:</strong> <span id="builders-count">0</span>
             </div>
         </div>
+        <script src="Logic.js"></script>
     </body>
 </html>

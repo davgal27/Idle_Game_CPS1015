@@ -2,10 +2,9 @@ body {
     margin: 0;
     padding: 0;
     height: 100vh;
-    overflow: hidden;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     background-color: deepskyblue;
 }
 .title-img {
@@ -13,11 +12,23 @@ body {
     top: -10px;
     width: 25%;
     height: auto;
+    animation: none;
 }
 .title-img img {
     width: 100%;
     height: auto;
     display: block;
+}
+@keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    50% { transform: translateX(10px); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
+}
+@keyframes shootDown {
+    0% {top: -800px;}
+    100% {top: -10px;}
 }
 .grass{
     position: fixed;
@@ -168,7 +179,7 @@ h2 {
     z-index: -3;
 }
 .title_screen {
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
     width: 600px;
@@ -191,6 +202,11 @@ h2 {
     font-size: 20px;
     font-weight: bolder;
     text-transform: uppercase;
+}
+#start-button{
+    position: absolute;
+    font-family: 'Jersey 25';
+    background-color: khaki;
 }
 #flash-message{
     animation: flash-animation 1s infinite;
@@ -228,12 +244,12 @@ h2 {
     border-radius: 5px;
 }
 .hook {
-    width: 40px;
-    height: 55px;
+    width: 60px;
+    height: 80px;
     background-image: url('assets/images/crane.png');
     background-size: cover;
     position: absolute;
-    top: -30px;
+    top: -35px;
     left: 50%;
     transform: translateX(-50%); /* Center it exactly */
     z-index: 5;
