@@ -38,7 +38,7 @@
             <div class="backclouds"></div>
         </div>
 
-        <button class="build-button">
+        <button class="build-button" id="build-button" onclick="BuildApartment()">
             <img src="assets/images/build_button_fixed.png" alt="Build Button">
         </button>
 
@@ -60,6 +60,12 @@
             <div class="upgrade-item">
                 <button class="upgrade-button" id="politician" onclick="DealWithPolitician()">
                     Deal with a Politician (Cost: <span id="politician-cost">500</span>) (x2 builders for 10 sec)
+                </button>
+            </div>
+            <!-- Clicker upgrade -->
+            <div class="upgrade-item">
+                <button class="upgrade-button" id="clickupgrade" onclick="UpgradeClick()">
+                    Increase your Power (Cost: <span id="clickupgrade-cost">100</span>) (+1 Apt/click)
                 </button>
             </div>
         </div>
@@ -113,6 +119,16 @@
             <div class="counter-item">
                 <strong>Builders:</strong> <span id="builders-count">0</span>
             </div>
+            <div class="counter-item">
+                <strong>€/Apartment:</strong> <span id="moneyperapartment-count">0</span>
+            </div>
+            <div class="counter-item">
+                <strong>Apartments/click:</strong> <span id="apartmentperclick-count">0</span>
+            </div>
+            <div class="counter-item">
+                <strong>Apartments/sec:</strong> <span id="apartmentpersec-count">0</span>
+            </div>
+
         </div>
         <script src="Logic.js"></script>
     </body>
