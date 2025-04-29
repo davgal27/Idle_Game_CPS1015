@@ -11,7 +11,7 @@ StartButton.addEventListener("click", () => { // WHEN CLICK ON START BUTTON, DO:
     TitleScreen.style.transition = "opacity 1s";
     TitleScreen.style.opacity = "0";
 
-    setTimeout(() => { // fading titlescrn
+    setTimeout(() => { // fading title screen
         TitleScreen.style.display = "none";
     }, 1000);
     
@@ -31,12 +31,114 @@ StartButton.addEventListener("click", () => { // WHEN CLICK ON START BUTTON, DO:
     }, 4000)
 });
 
-//BUILD BUTTON LOGIC (Counters)
-const BuildButton = document.getElementById("build-button");
-const ApartmentCount = document.getElementById("apartments-count");
-const MoneyCount = document.getElementById("money-count");
-const BuilderCount = document.getElementById("builders-count");
+//BUILD BUTTON LOGIC (Counters for Apt, money,  apt/click, apt/second)
+// RESOURCES
+let ApartmentsCount = 0;
+let MoneyCount = 0;
+let BuilderCount = 0;
 
+// OTHER COUNTERS
+let AptPerSec = 0;
+let AptPerClick = 1;
+let MoneyPerApt = 1;
+
+// UPGRADE COSTS
+let IncreaseApartmentSizeCost = 100;
+let UpgradeClickerCost = 200;
+let HireBuilderCost = 300;
+let DealWithPoliticianCost = 161017;
+
+//TIMED EVENT
+let event = false;
+let cooldown = false;
+
+// GETTING STUFF FROM HTML:
+// COUNTERS
+const ApartmentsCountElement = document.getElementById("apartments-count");
+const MoneyCountElement = document.getElementById("money-count");
+const BuilderCountElement = document.getElementById("builders-count");
+const MoneyPerAptElement = document.getElementById("moneyperapartment-count");
+const AptPerClickElement = document.getElementById("apartmentperclick-count");
+const AptPerSecElement = document.getElementById("apartmentpersec-count");
+// UPGRADES
+const HireBuilderCostElement = document.getElementById("builder-cost");
+const IncreaseApartmentSizeCostElement = document.getElementById("apartment-cost");
+const UpgradeClickerCostElement = document.getElementById("clickupgrade-cost");
+const DealWithPoliticianCostElement = document.getElementById("politician-cost");
+
+// UPDATING HTML TEXT CONTENT (the  counter spans)
+function UpdateCounters() {
+    //COUNTERS
+    ApartmentsCountElement.textContent = ApartmentsCount;
+    MoneyCountElement.textContent = MoneyCount;
+    BuilderCountElement.textContent = BuilderCount;
+    MoneyPerAptElement.textContent = MoneyPerApt;
+    AptPerClickElement.textContent = AptPerClick;
+    AptPerSecElement.textContent = AptPerSec;
+    //UPGRADES
+    HireBuilderCostElement.textContent = HireBuilderCost;
+    IncreaseApartmentSizeCostElement.textContent = IncreaseApartmentSizeCost;
+    UpgradeClickerCostElement.textContent = UpgradeClickerCost;
+    DealWithPoliticianCostElement.textContent = DealWithPoliticianCost;
+}
+
+function BuildWithClick(){ // building an apartment with a click
+    BuildApartment(AptPerClick);
+}
+function BuildApartment(amount){
+    ApartmentsCount += amount;
+    MoneyCount = MoneyPerApt * amount;
+    UpdateCounters();
+}
 
 // UPGRADE LOGIC (Counters + upgrade buttons + timed event)
+
+function IncreaseApartmentSize() {
+    if (MoneyCount >= IncreaseApartmentSizeCost) {
+        MoneyCount -= IncreaseApartmentSizeCost;
+        MoneyPerApt += 1;
+        IncreaseApartmentSizeCost = Math.floor(IncreaseApartmentSizeCost * 1.5);
+        UpdateCounters();
+    }
+}
+function UpgradeClick() {
+    if (MoneyCount >= UpgradeClickerCost) {
+        MoneyCount -= UpgradeClickerCost;
+        AptPerClick += 1;
+        UpgradeClickerCost = Math.floor(UpgradeClickerCost * 1.5);
+        UpdateCounters();
+    }
+}
+function HireBuilder() {
+    if (MoneyCount >= HireBuilderCost) {
+        MoneyCount -= HireBuilderCost;
+        BuilderCount += 1;
+        HireBuilderCost = Math.floor(HireBuilderCost * 1.5);
+        UpdateCounters();
+    }
+}
+setInterval(() => {
+    BuildApartment(BuilderCount);// Each builder builds 1 apartment
+    UpdateCounters();
+}, 1000);
+
+function DealWithPolitician() {
+    if (MoneyCount >= DealWithPoliticianCost) {
+        MoneyCount -= DealWithPoliticianCost;
+        DealWithPoliticianCost = Math.floor(DealWithPoliticianCost * 1.5);
+        event = true;
+        BuilderCount *= 2;
+
+        //cooldown
+        setTimeout(() => {
+            BuilderCount /= 2;
+            event = false;
+
+            cooldown = true;
+            setTimeout(() => {
+                cooldown = false;
+            }, 60000);
+        }, 30000);
+    }
+}
 // ACHIEVEMENT LOGIC (Counters + achievement unlocks + Popups)
