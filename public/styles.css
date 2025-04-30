@@ -73,15 +73,15 @@ body {
     position: fixed;
     top: 5%;
     right: 2%;
-    width: 952px;
+    width: auto;
     min-width: 150px;
     max-width: 220px;
     display: flex;
     flex-direction: column;
+    padding: 15px;
     gap: 1px;
-    padding: 20px;
     background: url("assets/images/brick_wall.jpg");
-    height: 300px;
+    height: auto;
     border-radius: 20px;
     background-size: cover;
 }
