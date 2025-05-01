@@ -273,8 +273,8 @@ h2 {
     opacity: 1;
 }
 .achievement-popup {
-    position: absolute;
-    top: 5%;
+    position: fixed;
+    top: 7%;
     left: 68%;
     width: 600px;
     height: 336px;
@@ -287,11 +287,12 @@ h2 {
     text-align: center;
     color: #404238;
     font-family: 'Jersey 25';
-    font-size: 100px;
+    font-size: 50px;
     z-index: 9999;
+    overflow: hidden;
     padding: 50px;
     gap: 15px;
-    transform: translateX(-110%) scale(0.3);
+    transform: translateX(-110%) scale(0.4);
 }
 @keyframes swing {
     0% {transform: rotate(5deg);}
@@ -352,4 +353,15 @@ h2 {
 
 #MuteButton:active {
     transform: scale(0.95);
+}
+#event-timer, #cooldown-timer {
+    position: absolute;
+    font-family: "Jersey 25";
+    font-size: 20px;
+    padding: 10px 15px;
+    margin: 10px 0;
+    bottom: 10vh;
+    border-radius: 8px;
+    color: white;
+    width: fit-content;
 }

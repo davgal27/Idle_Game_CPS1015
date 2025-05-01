@@ -84,6 +84,7 @@ let BuilderCount = 0;
 let AptPerClick = 1;
 let MoneyPerApt = 1;
 let BuilderMultiplier = 1;
+let DealWithPoliticianCount = 0;
 
 // UPGRADE COSTS
 let IncreaseApartmentSizeCost = 100;
@@ -178,16 +179,39 @@ function DealWithPolitician() {
         DealWithPoliticianCost = Math.floor(DealWithPoliticianCost * 1.2);
         event = true;
         BuilderMultiplier = 10;
+        DealWithPoliticianCount++;
 
+        // EVENT TIMER 
+        const eventTimer = document.getElementById("event-timer");
+        eventTimer.style.display = "block";
+        let eventStart = Date.now();
+        let eventInterval = setInterval(() => {
+            let elapsed = Math.floor((Date.now() - eventStart) / 1000);
+            eventTimer.textContent = `Bribing Politician: ${elapsed}s elapsed`;
+        }, 1000);
+        
         setTimeout(() => {
+            clearInterval(eventInterval);
+            eventTimer.style.display = "none";
             BuilderMultiplier = 1;
             event = false;
 
             cooldown = true;
+            const cooldownTimer = document.getElementById("cooldown-timer");
+            cooldownTimer.style.display = "block";
+            let cooldownStart = Date.now();
+            let cooldownInterval = setInterval(() => {
+                let elapsed = Math.floor((Date.now() - cooldownStart) / 1000);
+                cooldownTimer.textContent = `Waiting For Protests To Stop: ${elapsed}s elapsed`;
+            }, 1000);
+
             setTimeout(() => {
+                clearInterval(cooldownInterval);
+                cooldownTimer.style.display = "none";
                 cooldown = false;
             }, 60000);
         }, 30000);
+
         UpdateCounters();
         CheckAchievements();
     }
@@ -205,8 +229,8 @@ const achievements = [
     { name: "PLEASE Consider Charity", threshold: 50000000, counter: () => MoneyCount, unlocked: false },
     { name: "Kick Back and Relax", threshold: 1, counter: () => BuilderCount, unlocked: false },
     { name: "We’re Going to Need More Trucks", threshold: 100, counter: () => BuilderCount, unlocked: false },
-    { name: "At Least You're Creating Jobs", threshold: 1000, counter: () => BuilderCount, unlocked: false },
-    { name: "Not What You Know but Who You Know", threshold: 2, counter: () => event ? 1 : 0, unlocked: false } // timed event
+    { name: "At Least You're Creating Jobs", threshold: 200, counter: () => BuilderCount, unlocked: false },
+    { name: "Not What You Know but Who You Know", threshold: 2, counter: () => DealWithPoliticianCount, unlocked: false } // timed event
 ];
 
 function CheckAchievements() {
