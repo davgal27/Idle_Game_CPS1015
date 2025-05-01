@@ -5,21 +5,48 @@ const TitleImage = document.getElementById("title-img");
 
 
 TitleImage.style.visibility = 'hidden';
-//MUSIC 
-const landing = new Audio("assets/sounds/landing.mp3");
-const music1 = new Audio("assets/sounds/music1.mp3"); // Dbg
-const music2 = new Audio("assets/sounds/music2.mp3"); // Dayx
-
-
-const MusicList = [music1, music2];
+//SONGS LIST 
+const landing = new Audio("assets/sounds/landing.mp3"); // bowser landing sound
+const music1 = new Audio("assets/sounds/music1.mp3"); // Death By Glamour 8bit- 8bit universe remix
+const music2 = new Audio("assets/sounds/music2.mp3"); // Digestive Biscuit - Kubbi
+const music3 = new Audio("assets/sounds/music3.mp3"); // The Secret - DaXX
+const music4 = new Audio("assets/sounds/music4.mp3"); //Get up n' fight - nexscard
+// STARTING MUSIC LOGIC
+const MusicList = [music2, music4, music3, music1];
 let CurrentTrack = 0; //0 is music 1 , 1 is 2 etc 
 
+// MUTE BUTTON LOGIC 
+let IsMuted = false;
+const MuteButton = document.getElementById("MuteButton");
+let CurrentTimeOfSong = 0; // Would not have figured this out without AI 
+
+MuteButton.addEventListener("click", ()=> {
+    IsMuted = !IsMuted;
+
+    if (IsMuted){
+        CurrentTimeOfSong = MusicList[CurrentTrack].currentTime;
+        MusicList.forEach(audio => {
+            audio.pause();
+            audio.currentTime = 0;
+        })
+    } else {
+        MusicList[CurrentTrack].currentTime = CurrentTimeOfSong;
+        MusicList[CurrentTrack].play();
+        PlayNextMusic();
+    }
+})
+// PLAYING THE MUSIC 
 function PlayNextMusic(){
     if (CurrentTrack >= MusicList.length) {
         CurrentTrack = 0;
     }
-    MusicList[CurrentTrack].play();
-    CurrentTrack++;
+    if (!IsMuted) {
+        MusicList[CurrentTrack].play();
+        MusicList[CurrentTrack].onended = () => {
+            CurrentTrack++;
+            PlayNextMusic();
+        };
+    }
 }
 //start button
 StartButton.addEventListener("click", () => { // WHEN CLICK ON START BUTTON, DO:
@@ -44,10 +71,8 @@ StartButton.addEventListener("click", () => { // WHEN CLICK ON START BUTTON, DO:
     }, 2400);
     setTimeout( () =>{ // dbg to start 
         PlayNextMusic();
-    }, 4000)
+    }, 1500)
 });
-
-// MUTE BUTTON LOGIC 
 
 //BUILD BUTTON LOGIC (Counters for Apt, money,  apt/click)
 // RESOURCES
@@ -64,7 +89,7 @@ let BuilderMultiplier = 1;
 let IncreaseApartmentSizeCost = 100;
 let UpgradeClickerCost = 150;
 let HireBuilderCost = 200;
-let DealWithPoliticianCost = 1117;
+let DealWithPoliticianCost = 197;
 
 //TIMED EVENT
 let event = false;
@@ -110,6 +135,7 @@ function BuildApartment(amount){
     ApartmentsCount += amount;
     MoneyCount += MoneyPerApt * amount;
     UpdateCounters();
+    CheckAchievements();
 }
 
 // UPGRADE LOGIC (Counters + upgrade buttons + timed event)
@@ -120,6 +146,7 @@ function IncreaseApartmentSize() {
         MoneyPerApt += 1;
         IncreaseApartmentSizeCost = Math.floor(IncreaseApartmentSizeCost * 1.05);
         UpdateCounters();
+        CheckAchievements();
     }
 }
 function UpgradeClick() {
@@ -128,6 +155,7 @@ function UpgradeClick() {
         AptPerClick += 1;
         UpgradeClickerCost = Math.floor(UpgradeClickerCost * 1.05);
         UpdateCounters();
+        CheckAchievements();
     }
 }
 function HireBuilder() {
@@ -136,6 +164,7 @@ function HireBuilder() {
         BuilderCount += 1;
         HireBuilderCost = Math.floor(HireBuilderCost * 1.05);
         UpdateCounters();
+        CheckAchievements();
     }
 }
 setInterval(() => {
@@ -159,8 +188,53 @@ function DealWithPolitician() {
                 cooldown = false;
             }, 60000);
         }, 30000);
-
         UpdateCounters();
+        CheckAchievements();
     }
 }
+
 // ACHIEVEMENT LOGIC (Counters + achievement unlocks + Popups)
+
+const achievements = [
+    { name: "Not Again!", threshold: 10, counter: () => ApartmentsCount, unlocked: false },
+    { name: "Houses are Old School", threshold: 10000, counter: () => ApartmentsCount, unlocked: false },
+    { name: "Concrete Over Country", threshold: 100000, counter: () => ApartmentsCount, unlocked: false },
+    { name: "Who's Living in These??", threshold: 500000, counter: () => ApartmentsCount, unlocked: false },
+    { name: "Pocket Money", threshold: 500000, counter: () => MoneyCount, unlocked: false },
+    { name: "Have You Considered Charity?", threshold: 5000000, counter: () => MoneyCount, unlocked: false },
+    { name: "PLEASE Consider Charity", threshold: 50000000, counter: () => MoneyCount, unlocked: false },
+    { name: "Kick Back and Relax", threshold: 1, counter: () => BuilderCount, unlocked: false },
+    { name: "We’re Going to Need More Trucks", threshold: 100, counter: () => BuilderCount, unlocked: false },
+    { name: "At Least You're Creating Jobs", threshold: 1000, counter: () => BuilderCount, unlocked: false },
+    { name: "Not What You Know but Who You Know", threshold: 2, counter: () => event ? 1 : 0, unlocked: false } // timed event
+];
+
+function CheckAchievements() {
+    achievements.forEach(achievement => {
+        if (!achievement.unlocked && achievement.counter() >= achievement.threshold) {
+            UnlockAchievement(achievement); //calling function to unlock achievement
+        }
+    });
+}
+
+function UnlockAchievement(achievement) {
+    achievement.unlocked = true;
+    const AchievementElements = document.querySelectorAll('.achievement-name');
+    AchievementElements.forEach(element => {
+        if (element.textContent.includes(achievement.name)) {
+            const AchievementItem = element.closest('.achievement-item');
+            AchievementItem.classList.add('unlocked'); 
+        }
+    });
+
+    //Popup
+    const AchievementPopup = document.createElement('div');
+    AchievementPopup.classList.add('achievement-popup');
+    AchievementPopup.textContent = `Achievement unlocked: ${achievement.name}`;
+    document.body.appendChild(AchievementPopup);
+
+
+    setTimeout(() => {
+        AchievementPopup.remove();
+    }, 3000);
+}
