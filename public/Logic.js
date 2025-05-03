@@ -12,7 +12,7 @@ const music2 = new Audio("assets/sounds/music2.mp3"); // Digestive Biscuit - Kub
 const music3 = new Audio("assets/sounds/music3.mp3"); // The Secret - DaXX
 const music4 = new Audio("assets/sounds/music4.mp3"); //Get up n' fight - nexscard
 // STARTING MUSIC LOGIC
-const MusicList = [music2, music4, music3, music1];
+const MusicList = [music1, music2, music3, music4];
 let CurrentTrack = 0; //0 is music 1 , 1 is 2 etc 
 
 // MUTE BUTTON LOGIC 
@@ -71,7 +71,7 @@ StartButton.addEventListener("click", () => { // WHEN CLICK ON START BUTTON, DO:
     }, 2400);
     setTimeout( () =>{ // dbg to start 
         PlayNextMusic();
-    }, 1500)
+    }, 3500)
 });
 
 //BUILD BUTTON LOGIC (Counters for Apt, money,  apt/click)
@@ -90,7 +90,7 @@ let DealWithPoliticianCount = 0;
 let IncreaseApartmentSizeCost = 100;
 let UpgradeClickerCost = 150;
 let HireBuilderCost = 200;
-let DealWithPoliticianCost = 197;
+let DealWithPoliticianCost = 19740;
 
 //TIMED EVENT
 let event = false;
@@ -180,7 +180,7 @@ setInterval(() => {
 function DealWithPolitician() {
     if (MoneyCount >= DealWithPoliticianCost && !event && !cooldown) {
         MoneyCount -= DealWithPoliticianCost;
-        DealWithPoliticianCost = Math.floor(DealWithPoliticianCost * 1.2);
+        DealWithPoliticianCost = Math.floor(DealWithPoliticianCost * 2);
         event = true;
         BuilderMultiplier = 10;
         DealWithPoliticianCount++;
