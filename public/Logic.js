@@ -137,6 +137,7 @@ function BuildApartment(amount){
     MoneyCount += MoneyPerApt * amount;
     UpdateCounters();
     CheckAchievements();
+    SaveGame();
 }
 
 // UPGRADE LOGIC (Counters + upgrade buttons + timed event)
@@ -148,6 +149,7 @@ function IncreaseApartmentSize() {
         IncreaseApartmentSizeCost = Math.floor(IncreaseApartmentSizeCost * 1.05);
         UpdateCounters();
         CheckAchievements();
+        SaveGame();
     }
 }
 function UpgradeClick() {
@@ -157,6 +159,7 @@ function UpgradeClick() {
         UpgradeClickerCost = Math.floor(UpgradeClickerCost * 1.05);
         UpdateCounters();
         CheckAchievements();
+        SaveGame();
     }
 }
 function HireBuilder() {
@@ -166,6 +169,7 @@ function HireBuilder() {
         HireBuilderCost = Math.floor(HireBuilderCost * 1.05);
         UpdateCounters();
         CheckAchievements();
+        SaveGame();
     }
 }
 setInterval(() => {
@@ -214,24 +218,25 @@ function DealWithPolitician() {
 
         UpdateCounters();
         CheckAchievements();
+        SaveGame();
     }
 }
 
 // ACHIEVEMENT LOGIC (Counters + achievement unlocks + Popups)
-
 const achievements = [
-    { name: "Not Again!", threshold: 10, counter: () => ApartmentsCount, unlocked: false },
-    { name: "Houses are Old School", threshold: 10000, counter: () => ApartmentsCount, unlocked: false },
-    { name: "Concrete Over Country", threshold: 100000, counter: () => ApartmentsCount, unlocked: false },
-    { name: "Who's Living in These??", threshold: 500000, counter: () => ApartmentsCount, unlocked: false },
-    { name: "Pocket Money", threshold: 500000, counter: () => MoneyCount, unlocked: false },
-    { name: "Have You Considered Charity?", threshold: 5000000, counter: () => MoneyCount, unlocked: false },
-    { name: "PLEASE Consider Charity", threshold: 50000000, counter: () => MoneyCount, unlocked: false },
-    { name: "Kick Back and Relax", threshold: 1, counter: () => BuilderCount, unlocked: false },
-    { name: "We’re Going to Need More Trucks", threshold: 100, counter: () => BuilderCount, unlocked: false },
-    { name: "At Least You're Creating Jobs", threshold: 200, counter: () => BuilderCount, unlocked: false },
-    { name: "Not What You Know but Who You Know", threshold: 2, counter: () => DealWithPoliticianCount, unlocked: false } // timed event
+    { name: "Not Again!: ", threshold: 10, counter: () => ApartmentsCount, unlocked: false, description: "Reach 10 apartments" },
+    { name: "Houses are Old School: ", threshold: 10000, counter: () => ApartmentsCount, unlocked: false, description: "Reach 10,000 apartments" },
+    { name: "Concrete Over Country: ", threshold: 100000, counter: () => ApartmentsCount, unlocked: false, description: "Reach 100,000 apartments" },
+    { name: "Who's Living in These??: ", threshold: 500000, counter: () => ApartmentsCount, unlocked: false, description: "Reach 500,000 apartments" },
+    { name: "Pocket Money: ", threshold: 500000, counter: () => MoneyCount, unlocked: false, description: "Reach €500,000" },
+    { name: "Have You Considered Charity?: ", threshold: 5000000, counter: () => MoneyCount, unlocked: false, description: "Reach €5M" },
+    { name: "PLEASE Consider Charity: ", threshold: 50000000, counter: () => MoneyCount, unlocked: false, description: "Reach €50M" },
+    { name: "Kick Back and Relax: ", threshold: 1, counter: () => BuilderCount, unlocked: false, description: "Hire 1 builder" },
+    { name: "We’re Going to Need More Trucks: ", threshold: 100, counter: () => BuilderCount, unlocked: false, description: "Hire 100 builders" },
+    { name: "At Least You're Creating Jobs: ", threshold: 200, counter: () => BuilderCount, unlocked: false, description: "Hire 200 builders" },
+    { name: "Not What You Know but Who You Know: ", threshold: 2, counter: () => DealWithPoliticianCount, unlocked: false, description: "Deal with a politician... twice!" }
 ];
+
 
 function CheckAchievements() {
     achievements.forEach(achievement => {
@@ -262,3 +267,89 @@ function UnlockAchievement(achievement) {
         AchievementPopup.remove();
     }, 3000);
 }
+//to update the achievments upon refreshing visually, else only updated in JSON
+function UpdateAchievementsUI()  {
+    const container = document.querySelector('.achievements-list');
+    container.innerHTML = ''; // Clear previous achievements
+
+    achievements.forEach(achievement => {
+        const item = document.createElement('div');
+        item.classList.add('achievement-item');
+
+        if (achievement.unlocked) {
+            item.classList.add('unlocked'); // Add class if unlocked
+        }
+
+        // Create the achievement name span
+        const name = document.createElement('span');
+        name.classList.add('achievement-name');
+        name.textContent = achievement.name;
+
+        // Create the achievement description span
+        const description = document.createElement('span');
+        description.classList.add('achievement-description');
+        description.textContent = achievement.description; // Adjust the text based on threshold or other data
+
+        // Append the name and description to the achievement item
+        item.appendChild(name);
+        item.appendChild(description);
+
+        // Append the achievement item to the container
+        container.appendChild(item);
+    });
+}
+
+
+// INTERACTION WITH NODE.JS BACKEND (save, load)
+// SAVING
+function SaveGame() {
+    fetch('/SaveGame', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            Counters: {
+                ApartmentsCount,
+                MoneyCount,
+                MoneyPerApt,
+                AptPerClick,
+                BuilderCount,
+                BuilderMultiplier,
+                DealWithPoliticianCount
+            },
+            Achievements: achievements.map(a => ({ name: a.name, unlocked: a.unlocked }))
+        })
+    }).then(res => {
+        if (!res.ok) console.error('Failed to save game');
+    });
+}
+
+// LOADING
+function LoadGame() {
+    fetch('/LoadGame')
+        .then(res => res.json())
+        .then(data => {
+            if (data.Counters) {
+                ApartmentsCount = data.Counters.ApartmentsCount || 0;
+                MoneyCount = data.Counters.MoneyCount || 0;
+                MoneyPerApt = data.Counters.MoneyPerApt || 1;
+                AptPerClick = data.Counters.AptPerClick || 1;
+                BuilderCount = data.Counters.BuilderCount || 0;
+                BuilderMultiplier = data.Counters.BuilderMultiplier || 1;
+                DealWithPoliticianCount = data.Counters.DealWithPoliticianCount || 0;
+            }
+
+            if (Array.isArray(data.Achievements)) {
+                data.Achievements.forEach(saved => {
+                    const match = achievements.find(a => a.name === saved.name);
+                    if (match) match.unlocked = saved.unlocked;
+                });
+            }
+
+            UpdateCounters();
+            CheckAchievements();
+            UpdateAchievementsUI();
+        });
+}
+window.onload = function(){
+    LoadGame();
+}; // calling the function to actually load the game 

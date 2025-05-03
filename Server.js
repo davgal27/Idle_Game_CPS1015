@@ -37,10 +37,39 @@ const Autosave = () => {
 };
 
 Autosave();
+// Saving from info recieved from the browser (client)
+App.post('/SaveGame', (req, res) => {
+    const data = req.body;
 
-// LOADING FROM SAVE
-App.get('/LoadGame', (Req, Res) => {
-    Res.json(SavedState);
+    if (data && data.Counters && data.Achievements) {
+        // Update in-memory state and save to file
+        SavedState = data;
+        fs.writeFile(FilePath, JSON.stringify(SavedState, null, 2), (Error) => {
+            if (Error) {
+                console.error('Failed to save game:', Error);
+                return res.status(500).send('Failed to save game');
+            } else {
+                console.log('Game state saved!');
+                return res.status(200).send('Save received');
+            }
+        });
+    } else {
+        res.status(400).send('Invalid save data');  // Error if the data is invalid
+    }
+});
+
+
+// LOADING FROM SAVEDSTATE.JSON
+App.get('/LoadGame', (req, res) => {
+    fs.readFile(FilePath, 'utf-8', (Error, data) => {
+        if (Error) {
+            console.error('Error loading saved state:', Error);
+            res.status(500).send('Error loading game state');
+        } else {
+            const savedState = JSON.parse(data);
+            res.json(savedState); // Send saved state to client
+        }
+    });
 });
 // STARTING SERVER
 App.listen(Port, () => console.log(`Server running on http://localhost:${Port}`));

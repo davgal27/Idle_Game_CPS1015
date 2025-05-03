@@ -1,0 +1,26 @@
+{
+  "Counters": {
+    "ApartmentsCount": 0,
+    "MoneyCount": 0,
+    "MoneyPerApt": 1,
+    "AptPerClick": 1,
+    "BuilderCount": 0,
+    "BuilderMultiplier": 1,
+    "DealWithPoliticianCount": 0
+  },
+  "Achievements": [
+    { "name": "Not Again!", "unlocked": false },
+    { "name": "Houses are Old School", "unlocked": false },
+    { "name": "Concrete Over Country", "unlocked": false },
+    { "name": "Who's Living in These??", "unlocked": false },
+    { "name": "Pocket Money", "unlocked": false },
+    { "name": "Have You Considered Charity?", "unlocked": false },
+    { "name": "PLEASE Consider Charity", "unlocked": false },
+    { "name": "Kick Back and Relax", "unlocked": false },
+    { "name": "We’re Going to Need More Trucks", "unlocked": false },
+    { "name": "At Least You're Creating Jobs", "unlocked": false },
+    { "name": "Not What You Know but Who You Know", "unlocked": false }
+  ]
+}
+
+// Just copy this to SavedState.json to restart progress
