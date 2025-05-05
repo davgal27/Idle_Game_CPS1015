@@ -8,7 +8,7 @@
         <link rel = "stylesheet" href = "styles.css">
     </head>
     <body>
-        <div class="title_screen" id="title_screen">
+        <article class="title_screen" id="title_screen">
             <p>
                 <strong>The property crisis is over!</strong><br>
                 Housing for everyone!<br>
@@ -25,106 +25,108 @@
                 <strong>Good luck!</strong>
                 <br>
                 <span id="flash-message">Click The Button to start:  </span>
-                <button id="start-button">The Button</button>
+                <button id="start-button" aria-label="Start the game">The Button</button>
             </p>
-        </div>
-        <div class="title-img" id="title-img"> <!--Konkos title -->
+        </article>
+        <figure class="title-img" id="title-img"> <!--Konkos title -->
             <img src="assets/images/konkos_fixed.png" alt="KONKOS"/>
-        </div>
-        <button id="MuteButton">🔇 Mute</button>
+        </figure>
+        <button id="MuteButton" aria-label="Mute game audio">🔇 Mute</button>
         <div class="grass"></div>
-        <div class="sky"></div>
+        <main class="sky" role="img" aria-label="Sunset over a city overrun by buildings and cranes"></main>
         <div class="clouds">
             <div class="frontclouds"></div>
             <div class="backclouds"></div>
         </div>
 
-        <button class="build-button" id="build-button" onclick="BuildWithClick()">
-            <img src="assets/images/build_button_fixed.png" alt="Build Button">
+        <button class="build-button" id="build-button" onclick="BuildWithClick()" aria-label="Build apartment">
+            <img src="assets/images/build_button_fixed.png" alt="Build!">
         </button>
 
-        <div class="upgrade-section">
+        <section class="upgrade-section">
             <h2>Upgrades!</h2>
             <!-- Apartment upgrade -->
             <div class="upgrade-item">
-                <button class="upgrade-button" id="apartment-size" onclick="IncreaseApartmentSize()">
+                <button class="upgrade-button" id="apartment-size" onclick="IncreaseApartmentSize()" aria-label="Upgrade apartment size">
                     Apartment Size (Cost: <span id="apartment-cost">150</span>) (+1 $ / apt)
                 </button>
             </div>
             <!-- Clicker upgrade -->
             <div class="upgrade-item">
-                <button class="upgrade-button" id="clickupgrade" onclick="UpgradeClick()">
+                <button class="upgrade-button" id="clickupgrade" onclick="UpgradeClick()" aria-label="Upgrade click power">
                     Increase your Power (Cost: <span id="clickupgrade-cost">100</span>) (+1 Apt/click)
                 </button>
             </div>
             <!-- Builder upgrade  -->
             <div class="upgrade-item">
-                <button class="upgrade-button" id="hire-builder" onclick="HireBuilder()">
+                <button class="upgrade-button" id="hire-builder" onclick="HireBuilder()" aria-label="Hire a builder">
                     Hire a Builder (Cost: <span id="builder-cost">100</span>) (+1 apt/sec)
                 </button>
             </div>
             <!-- Politician upgrade -->
             <div class="upgrade-item">
-                <button class="upgrade-button" id="politician" onclick="DealWithPolitician()">
+                <button class="upgrade-button" id="politician" onclick="DealWithPolitician()" aria-label="Deal with a politician for builder boost">
                     Deal with a Politician (Cost: <span id="politician-cost">500</span>) (x10 builders for 30 sec) (60s cooldown)
                 </button>
             </div>
-        </div>
+        </section>
+
         <div id="event-timer" style="display: none;">Bribing Politician: 0s elapsed</div>
         <div id="cooldown-timer" style="display: none;">Waiting For Protests To Stop: 0s elapsed</div>
+
         <div class="achievements-wrapper">
             <div class="hook"></div>
             <div class="achievements-section">
                 <h2>Achievements!</h2>
-                <div class="achievements-list">
-                    <div class="achievement-item">
+                <section class="achievements-list">
+                    <div class="achievement-item" aria-label="Achievement: Not Again! - Reach 10 apartments">
                         <span class="achievement-name"><strong>Not Again!:</strong></span>
                         <span class="achievement-description">Reach 10 apartments</span>
                     </div>
-                    <div class="achievement-item">
+                    <div class="achievement-item" aria-label="Achievement: Houses are Old School - Reach 10,000 apartments">
                         <span class="achievement-name"><strong>Houses are Old School:</strong></span>
                         <span class="achievement-description">Reach 10,000 apartments</span>
                     </div>
-                    <div class="achievement-item">
+                    <div class="achievement-item" aria-label="Achievement: Concrete Over Country - Reach 100,000 apartments">
                         <span class="achievement-name"><strong>Concrete Over Country:</strong></span>
                         <span class="achievement-description">Reach 100,000 apartments</span>
                     </div>
-                    <div class="achievement-item">
+                    <div class="achievement-item" aria-label="Achievement: Who's Living in These?? - Reach 500,000 apartments">
                         <span class="achievement-name"><strong>Who's Living in These??:</strong></span>
                         <span class="achievement-description">Reach 500,000 apartments</span>
                     </div>
-                    <div class="achievement-item">
+                    <div class="achievement-item" aria-label="Achievement: Pocket Money - Reach €500,000">
                         <span class="achievement-name"><strong>Pocket Money:</strong></span>
                         <span class="achievement-description">Reach €500,000 :</span>
                     </div>
-                    <div class="achievement-item">
+                    <div class="achievement-item" aria-label="Achievement: Have You Considered Charity? - Reach €5 million">
                         <span class="achievement-name"><strong>Have You Considered Charity?:</strong></span>
                         <span class="achievement-description">Reach €5M </span>
                     </div>
-                    <div class="achievement-item">
+                    <div class="achievement-item" aria-label="Achievement: PLEASE Consider Charity - Reach €50 million">
                         <span class="achievement-name"><strong>PLEASE Consider Charity:</strong></span>
                         <span class="achievement-description">Reach €50M </span>
                     </div>
-                    <div class="achievement-item">
+                    <div class="achievement-item" aria-label="Achievement: Kick Back and Relax - Hire 1 builder">
                         <span class="achievement-name"><strong>Kick Back and Relax:</strong></span>
                         <span class="achievement-description">Hire 1 builder</span>
                     </div>
-                    <div class="achievement-item">
+                    <div class="achievement-item" aria-label="Achievement: We’re Going to Need More Trucks - Hire 100 builders">
                         <span class="achievement-name"><strong>We’re Going to Need More Trucks:</strong></span>
                         <span class="achievement-description">Hire 100 builders</span>
                     </div>
-                    <div class="achievement-item">
+                    <div class="achievement-item" aria-label="Achievement: At Least You're Creating Jobs - Hire 200 builders">
                         <span class="achievement-name"><strong>At Least You're Creating Jobs:</strong></span>
                         <span class="achievement-description">Hire 200 builders</span>
                     </div>
-                    <div class="achievement-item">
+                    <div class="achievement-item" aria-label="Achievement: Not What You Know but Who You Know - Deal with a politician twice">
                         <span class="achievement-name"><strong>Not What You Know but Who You Know:</strong></span>
                         <span class="achievement-description">Deal With a Politician... Twice!</span>
                     </div>
-                </div>
-             </div>
+                </section>
+            </div>
         </div>
-        <div class="counters-section">
+        <section class="counters-section">
             <div class="counter-item">
                 <strong>Apartments:</strong> <span id="apartments-count">0</span>
             </div>
@@ -140,7 +142,7 @@
             <div class="counter-item">
                 <strong>Apartments/click:</strong> <span id="apartmentperclick-count">0</span>
             </div>
-        </div>
+        </section>
         <script src="Logic.js"></script>
     </body>
 </html>

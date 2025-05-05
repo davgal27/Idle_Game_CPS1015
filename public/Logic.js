@@ -137,7 +137,6 @@ function BuildApartment(amount){
     MoneyCount += MoneyPerApt * amount;
     UpdateCounters();
     CheckAchievements();
-    SaveGame();
 }
 
 // UPGRADE LOGIC (Counters + upgrade buttons + timed event)
@@ -322,6 +321,7 @@ function SaveGame() {
         if (!res.ok) console.error('Failed to save game');
     });
 }
+setInterval(SaveGame, 10000); //autosave every 10 seconds
 
 // LOADING
 function LoadGame() {

@@ -9,7 +9,7 @@ body {
 }
 .title-img {
     position: fixed;
-    top: -10px;
+    top: -45px;
     width: 25%;
     height: auto;
     animation: none;
@@ -274,7 +274,7 @@ h2 {
 }
 .achievement-popup {
     position: fixed;
-    top: 7%;
+    top: 10%;
     left: 68%;
     width: 600px;
     height: 336px;

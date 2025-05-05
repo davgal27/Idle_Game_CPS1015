@@ -35,8 +35,8 @@ const Autosave = () => {
         });
     }, 10000); // Autosave every 10 seconds
 };
-
 Autosave();
+
 // Saving from info recieved from the browser (client)
 App.post('/SaveGame', (req, res) => {
     const data = req.body;
