@@ -23,21 +23,7 @@ const LoadSavedState = () => { //loading from file SavedState.json
 };
 LoadSavedState();
 
-// SAVING DATA THROUGH AUTOSAVE
-const Autosave = () => {
-    setInterval(() => {
-        fs.writeFile(FilePath, JSON.stringify(SavedState, null, 2), (Error) => {
-            if (Error) {
-                console.error('Failed to save game:', Error);
-            } else {
-                console.log('Game state saved!');
-            }
-        });
-    }, 10000); // Autosave every 10 seconds
-};
-Autosave();
-
-// Saving from info recieved from the browser (client)
+// SAVING AND WRITING TO FILE
 App.post('/SaveGame', (req, res) => {
     const data = req.body;
 
@@ -59,7 +45,7 @@ App.post('/SaveGame', (req, res) => {
 });
 
 
-// LOADING FROM SAVEDSTATE.JSON
+// LOADING FROM AND READING A FILE
 App.get('/LoadGame', (req, res) => {
     fs.readFile(FilePath, 'utf-8', (Error, data) => {
         if (Error) {
